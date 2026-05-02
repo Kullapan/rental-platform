@@ -165,8 +165,8 @@ function bindReservePopup() {
   endDateInput?.addEventListener('change', recalculate);
   endTimeInput?.addEventListener('change', recalculate);
 
-  // Confirm & Continue → navigate to confirm-booking
-  document.getElementById('reserve-popup-confirm')?.addEventListener('click', () => {
+  // Confirm & Continue → save to Google Sheets, then navigate to confirm-booking
+  document.getElementById('reserve-popup-confirm')?.addEventListener('click', async (e) => {
     if (!startDateInput.value || !endDateInput.value) {
       errorEl.textContent = 'Please select valid start and end dates.';
       errorEl.classList.remove('hidden');
@@ -183,8 +183,54 @@ function bindReservePopup() {
       return;
     }
 
-    closePopup();
-    window.location.hash = 'confirm-booking';
+    const confirmBtn = e.currentTarget;
+    const originalText = confirmBtn.innerHTML;
+    confirmBtn.innerHTML = '<span class="material-symbols-outlined animate-spin" style="font-size:20px">sync</span> Saving...';
+    confirmBtn.disabled = true;
+
+    try {
+      // Dynamically extract vehicle name
+      const vehicleNameEl = document.querySelector('.reserve-popup-vehicle-card h3');
+      const vehicleName = vehicleNameEl ? vehicleNameEl.textContent.trim() : 'Unknown Vehicle';
+      
+      // Dynamic array structure - easy to append new fields in the future without changing backend
+      const valuesToSave = [
+        vehicleName,
+        startDateInput.value,
+        startTimeInput.value,
+        endDateInput.value,
+        endTimeInput.value,
+        durationEl.textContent,
+        totalEl.textContent
+      ];
+
+      // Automatically use the local emulator if running on localhost, otherwise use production
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const functionUrl = isLocalhost
+        ? 'http://127.0.0.1:5001/rental-platform-3d52f/us-central1/saveBooking'
+        : 'https://us-central1-rental-platform-3d52f.cloudfunctions.net/saveBooking';
+
+      const response = await fetch(functionUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values: valuesToSave })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save booking data to Google Sheets');
+      }
+
+      closePopup();
+      window.location.hash = 'confirm-booking';
+
+    } catch (err) {
+      console.error(err);
+      errorEl.textContent = 'Error saving booking. Please try again.';
+      errorEl.classList.remove('hidden');
+    } finally {
+      confirmBtn.innerHTML = originalText;
+      confirmBtn.disabled = false;
+    }
   });
 }
 
