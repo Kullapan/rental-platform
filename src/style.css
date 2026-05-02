@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Status Badges */
+  .badge-confirmed {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-md;
+    background: rgba(52, 168, 83, 0.1);
+    color: #006e2c;
+  }
+  .badge-pending {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-md;
+    background: rgba(251, 188, 5, 0.12);
+    color: #5c4300;
+  }
+  .badge-cancelled {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-md;
+    background: rgba(186, 26, 26, 0.1);
+    color: #ba1a1a;
+  }
+  .badge-available {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-md;
+    background: rgba(52, 168, 83, 0.1);
+    color: #006e2c;
+  }
+  .badge-booked {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-md;
+    background: rgba(66, 133, 244, 0.1);
+    color: #0058bd;
+  }
+  .badge-maintenance {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-md;
+    background: rgba(114, 119, 133, 0.1);
+    color: #727785;
+  }
+
+  /* Primary Button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full
+           bg-google-blue text-white text-label-lg font-medium
+           shadow-level-1 hover:shadow-level-2 active:shadow-level-0
+           transition-all duration-200 cursor-pointer select-none;
+  }
+  .btn-primary:hover {
+    @apply brightness-110;
+  }
+
+  /* Secondary / Outlined Button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full
+           border border-outline text-primary text-label-lg font-medium
+           hover:bg-primary/5 active:bg-primary/10
+           transition-all duration-200 cursor-pointer select-none;
+  }
+
+  /* Tertiary / Text Button */
+  .btn-text {
+    @apply inline-flex items-center justify-center gap-1 px-4 py-2 rounded-full
+           text-primary text-label-lg font-medium
+           hover:bg-primary/5 transition-all duration-200 cursor-pointer select-none;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-surface-container-lowest rounded-xl p-card shadow-level-1
+           hover:shadow-level-2 transition-shadow duration-200;
+  }
+
+  /* Input Field (Material Outlined) */
+  .input-outlined {
+    @apply w-full px-4 py-3 rounded-lg border border-outline-variant bg-transparent
+           text-body-lg text-on-surface placeholder:text-on-surface-variant
+           focus:outline-none focus:border-primary focus:border-2 focus:ring-0
+           transition-colors duration-200;
+  }
+  .input-label {
+    @apply block text-label-md text-on-surface-variant mb-1.5;
+  }
+
+  /* Bottom Navigation - Mobile Only */
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 w-full md:hidden
+           bg-surface-container-low border-t border-outline-variant
+           flex items-center justify-around py-2 z-50;
+  }
+  .bottom-nav-item {
+    @apply flex flex-col items-center gap-0.5 py-1 px-3 rounded-2xl text-on-surface-variant
+           hover:bg-primary/5 transition-colors duration-150 cursor-pointer select-none;
+  }
+  .bottom-nav-item.active {
+    @apply text-primary;
+  }
+  .bottom-nav-item.active .nav-indicator {
+    @apply bg-primary-container rounded-full px-4 py-0.5;
+  }
+
+  /* Desktop Sidebar/Top Nav */
+  .desktop-nav {
+    @apply hidden md:flex flex-col fixed left-0 top-0 h-full w-64
+           bg-surface-container-low border-r border-outline-variant
+           p-6 z-50;
+  }
+  .desktop-nav-item {
+    @apply flex items-center gap-4 px-4 py-3 rounded-xl text-body-lg text-on-surface-variant
+           hover:bg-primary/5 transition-all duration-200 cursor-pointer select-none mb-2;
+  }
+  .desktop-nav-item.active {
+    @apply bg-primary/10 text-primary font-medium;
+  }
+
+  /* Top App Bar */
+  .top-bar {
+    @apply sticky top-0 flex items-center gap-3 px-4 py-3
+           bg-surface/80 backdrop-blur-md z-40
+           md:px-8 md:py-4;
+  }
+
+  /* Floating Action Button */
+  .fab {
+    @apply fixed bottom-20 right-4 w-14 h-14 rounded-2xl
+           bg-primary-container text-on-primary-container
+           shadow-level-3 flex items-center justify-center
+           hover:shadow-level-2 active:shadow-level-1
+           transition-all duration-200 cursor-pointer z-40
+           md:bottom-8 md:right-8;
+  }
+
+  /* Spec Chip */
+  .spec-chip {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-lg
+           border border-outline-variant text-label-md text-on-surface-variant;
+  }
+
+  /* Promotion Card */
+  .promo-card {
+    @apply rounded-xl p-5 text-white relative overflow-hidden;
+  }
+
+  /* Stepper */
+  .stepper-step {
+    @apply flex items-center gap-2;
+  }
+  .stepper-dot {
+    @apply w-8 h-8 rounded-full flex items-center justify-center text-label-md font-medium;
+  }
+  .stepper-dot.active {
+    @apply bg-google-blue text-white;
+  }
+  .stepper-dot.completed {
+    @apply bg-google-blue text-white;
+  }
+  .stepper-dot.upcoming {
+    @apply bg-surface-container-high text-on-surface-variant;
+  }
+  .stepper-line {
+    @apply flex-1 h-0.5 bg-outline-variant;
+  }
+  .stepper-line.completed {
+    @apply bg-google-blue;
+  }
+
+  /* Content Wrapper */
+  .content-wrapper {
+    @apply px-4 pb-28 md:pl-72 md:pr-8 md:pb-8 md:pt-4 max-w-screen-2xl;
+  }
+}
+
+/* Page transitions */
+#app-content {
+  animation: fadeIn 0.25s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c2c6d5;
+  border-radius: 999px;
+}
